@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BackgroundGradient } from "../components/ui/background-gradient";
-import { useAuth } from "../context/AuthContext";
-// import TravelgramLogo from "../assets/react.svg";
 
 const GoogleIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3" width="18" height="18">
@@ -13,17 +11,17 @@ const GoogleIcon: React.FC<{ className?: string }> = ({ className }) => (
     </svg>
 );
 
-const TravelgramLogo = "https://lh3.googleusercontent.com/aida-public/AB6AXuAfuTValJJROe9mXHFAghEMMEsqgCNpKS2trAncS8osxXCn9fdcrmhaPGLLE-N7PJtKsMJekw0S5btLJNnLlII91B_NYioJEFw2SO-ookeAlZgdaG7anR49NzWNdbEP_lMPab_ieHuEeDF_i_85glG0IRmZv0EdJt2BS74IrJORVd1EZowEvxkE5wVBhRw4p1DkhwdvI5wfI-OEhR9hAWEoWbQyNX8p0s-cHfAnei_oOUd2aJigDS0tNrD12S2vJuWEW7qDY3kxc54";
+const TravelgramLogo = "https://lh3.googleusercontent.com/aida-public/AB6AXuCZasH0SNuduLUULwmdW7Pl6MA69nsyFIRAQSVV-fuiaQZMF1NspmApgknQjInt4aVClqnft680LlpKGO-1_wgZJYonHtIwZbJdKzbX3371TkKAeHqLaSeaJoL7Onk5QoDGsMW6roeKRdIhexA8gl0Zxb6FMYYar_oPFBM7o5lrfuEhyZlYq-VX-62vRed0SmTZteHT1Nb9LEIh4fNmJ269qJtCuclWakGx31IMPBenvThRKNIVLYIIHcZSu-0gbnzQQq3ilRPL_zQ";
 
-function Login() {
+function SignUp() {
     const navigate = useNavigate?.() ?? (() => { });
-    const [identifier, setIdentifier] = useState("");
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const { login } = useAuth();
 
-    const canSubmit = identifier.trim().length > 0 && password.length > 0;
+    const canSubmit = email.trim().length > 0 && username.trim().length > 0 && password.length > 0;
 
 
 
@@ -31,15 +29,7 @@ function Login() {
         e.preventDefault();
         if (!canSubmit) return;
         setIsSubmitting(true);
-
-        // Simulate fake login with a delay
-        setTimeout(() => {
-            setIsSubmitting(false);
-            // Call the login function from AuthContext
-            login();
-            // Navigate to home page
-            navigate("/");
-        }, 800);
+        console.log(email, username, password);
     }
 
     return (
@@ -68,15 +58,42 @@ function Login() {
                                     >
                                         Travelgram
                                     </h1>
+                                    <p className="text-sm text-center">
+                                        Join fellow travelers and share your travel experiences.
+                                    </p>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => alert("Google login placeholder")}
+                                        className="w-full flex items-center justify-center gap-2 py-2 rounded text-sm font-semibold text-[#0095f6] hover:underline cursor-pointer"
+                                    >
+                                        <GoogleIcon className="text-[#1877f2]" />
+                                        <span className="text-[#1877f2]">Sign up with Google</span>
+                                    </button>
+
+                                    <div className="flex items-center gap-2 my-2">
+                                        <div className="flex-1 h-px bg-gray-800" />
+                                        <div className="text-xs text-gray-500 uppercase">or</div>
+                                        <div className="flex-1 h-px bg-gray-800" />
+                                    </div>
 
                                     <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3">
-                                        <label htmlFor="identifier" className="sr-only">Phone number, username, or email</label>
+                                        <label htmlFor="email" className="sr-only">Email</label>
                                         <input
-                                            id="identifier"
-                                            name="identifier"
-                                            value={identifier}
-                                            onChange={(e) => setIdentifier(e.target.value)}
-                                            placeholder="Phone number, username, or email"
+                                            id="email"
+                                            name="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            placeholder="Enter your email"
+                                            className="input bg-[#111111] border border-gray-700 placeholder-gray-500 text-white px-3 py-2 rounded focus:ring-0 focus:outline-none"
+                                        />
+                                        <label htmlFor="username" className="sr-only">Username</label>
+                                        <input
+                                            id="username"
+                                            name="username"
+                                            value={username}
+                                            onChange={(e) => setUsername(e.target.value)}
+                                            placeholder="Choose a username"
                                             className="input bg-[#111111] border border-gray-700 placeholder-gray-500 text-white px-3 py-2 rounded focus:ring-0 focus:outline-none"
                                         />
 
@@ -88,7 +105,7 @@ function Login() {
                                                 type={showPassword ? "text" : "password"}
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
-                                                placeholder="Password"
+                                                placeholder="Create a password"
                                                 className="input bg-[#111111] border border-gray-700 placeholder-gray-500 text-white px-3 py-2 rounded w-full focus:ring-0 focus:outline-none"
                                             />
                                             <button
@@ -108,47 +125,22 @@ function Login() {
                                                 : "bg-[#2d2d2d] opacity-70 cursor-not-allowed"
                                                 }`}
                                         >
-                                            {isSubmitting ? "Logging in…" : "Log In"}
+                                            {isSubmitting ? "Signing up…" : "Sign Up"}
                                         </button>
 
-                                        <div className="flex items-center gap-2 my-2">
-                                            <div className="flex-1 h-px bg-gray-800" />
-                                            <div className="text-xs text-gray-500 uppercase">or</div>
-                                            <div className="flex-1 h-px bg-gray-800" />
-                                        </div>
 
-                                        <button
-                                            type="button"
-                                            onClick={() => alert("Google login placeholder")}
-                                            className="w-full flex items-center justify-center gap-2 py-2 rounded text-sm font-semibold text-[#0095f6] hover:underline cursor-pointer"
-                                        >
-                                            <GoogleIcon className="text-[#1877f2]" />
-                                            <span className="text-[#1877f2]">Sign up with Google</span>
-                                        </button>
+
+
 
                                         <div className="text-center">
-                                            <Link to="/forgot-password" className="text-xs text-gray-400 hover:text-white">
-                                                Forgot password?
+                                            <Link to="/login" className="text-xs text-gray-400">
+                                                Already have an account? <span className="text-[#0095f6] font-semibold hover:underline">Login</span>
                                             </Link>
                                         </div>
                                     </form>
                                 </div>
                             </BackgroundGradient>
                         </div>
-
-
-                        {/* Signup card */}
-                        <div className="bg-[#000000] border border-gray-800 p-6 rounded-[16px] mt-4 text-center transition duration-300 ease-in-out hover:shadow-lg hover:shadow-white/12">
-                            <p className="text-sm text-gray-300">
-                                Don't have an account?{" "}
-                                <Link to="/register" className="text-[#0095f6] font-semibold hover:underline">
-                                    Sign up
-                                </Link>
-                            </p>
-                        </div>
-
-
-
 
                         {/* Get the app */}
                         <div className="mt-4 text-center">
@@ -201,4 +193,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default SignUp;
