@@ -7,6 +7,7 @@ import MainLayout from "./components/MainLayout";
 import ForgotPassword from "./pages/ForgotPassword";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
+import Messages from "./pages/Messages";
 
 function App() {
 
@@ -30,6 +31,16 @@ function App() {
             <ProtectedRoute>
               <MainLayout>
                 <Profile />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/messages"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Messages />
               </MainLayout>
             </ProtectedRoute>
           }

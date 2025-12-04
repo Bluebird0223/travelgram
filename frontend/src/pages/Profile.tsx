@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ImageBentoGrid from '../components/ImageBentoGrid';
-import { postImages } from '../data/images';
+import { postImages, savedImages } from '../data/images'; // Import taggedImages
 import {
     Grid3x3,
     Bookmark,
@@ -8,38 +8,27 @@ import {
     Edit3,
     Globe,
     MapPin,
-    Users,
     Heart,
     MessageCircle,
-    Send,
     MoreVertical,
-    Home,
-    Compass,
-    Camera,
-    User,
-    Instagram,
-    Twitter,
-    Youtube,
-    Mail
 } from 'lucide-react';
 
 const Profile: React.FC = () => {
+    const [activeTab, setActiveTab] = useState<'posts' | 'saved' | 'tagged'>('posts');
+
     return (
         <main className="flex justify-center pt-2 md:pt-2 pb-10 min-h-screen bg-black text-white">
             <div className="flex flex-col w-full max-w-6xl px-4 md:px-6 lg:px-8">
                 {/* Profile Header */}
                 <div className="flex flex-col md:flex-row gap-8 p-4 md:p-6 border-b border-gray-800 pb-8 md:pb-10">
                     {/* Profile Image */}
-                    <div className="flex justify-center md:justify-center ">
+                    <div className="flex justify-center md:justify-start">
                         <div className="relative">
                             <div
                                 className="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-32 w-32 md:h-40 md:w-40 lg:h-48 lg:w-48 ring-4 ring-gray-800"
                                 data-alt="A portrait of Alex Wanderlust smiling"
                                 style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDORy3EViqNqfQbsMKxjNHnwPA0-FoVJR3tamuMzwqg9hPRRRQzcyVsrhdegGVzopPFJ8oTxoB8zxRToXp6T8SQyq-GR1OPHgihH4k5zkpowMPjmmOloCtek6cESGvkvZDScIlow6OY2eZ7YXfmxUbJbFpE9zsZDf3-2P6CPrVVjN_ehVrx-s5rlqT-9ObyTlOifXWhbpLI63iX05zUcl26LXuLfXE2HuQAU5jHbMSca_nosEC_BATZOn3LM6r52WC1K2-mhki4TSs")' }}
                             />
-                            <div className="absolute -bottom-2 -right-2 bg-blue-500 text-white rounded-full p-2 shadow-lg">
-                                <Edit3 className="h-4 w-4" />
-                            </div>
                         </div>
                     </div>
 
@@ -123,19 +112,66 @@ const Profile: React.FC = () => {
                 {/* Tabs */}
                 <div className="pb-6">
                     <div className="flex border-b border-gray-800 justify-center md:justify-center">
-                        <a className="flex items-center justify-center border-b-2 border-blue-500 text-white gap-2 py-4 px-6 flex-1 sm:flex-initial sm:min-w-[140px] hover:bg-gray-900/50 transition-colors">
+                        {/* POSTS Tab */}
+                        <button
+                            onClick={() => setActiveTab('posts')}
+                            className={`flex items-center justify-center border-b-2 gap-2 py-4 px-6 flex-1 sm:flex-initial sm:min-w-[140px] hover:bg-gray-900/50 transition-colors ${activeTab === 'posts'
+                                ? 'border-blue-500 text-white'
+                                : 'border-transparent text-gray-400 hover:text-white'
+                                }`}
+                        >
                             <Grid3x3 className="h-5 w-5" />
                             <p className="text-sm font-semibold tracking-wider hidden sm:block">POSTS</p>
-                        </a>
-                        <a className="flex items-center justify-center border-b-2 border-transparent text-gray-400 hover:text-white gap-2 py-4 px-6 flex-1 sm:flex-initial sm:min-w-[140px] hover:bg-gray-900/50 transition-colors">
+                        </button>
+
+                        {/* SAVED Tab */}
+                        <button
+                            onClick={() => setActiveTab('saved')}
+                            className={`flex items-center justify-center border-b-2 gap-2 py-4 px-6 flex-1 sm:flex-initial sm:min-w-[140px] hover:bg-gray-900/50 transition-colors ${activeTab === 'saved'
+                                ? 'border-blue-500 text-white'
+                                : 'border-transparent text-gray-400 hover:text-white'
+                                }`}
+                        >
                             <Bookmark className="h-5 w-5" />
                             <p className="text-sm font-semibold tracking-wider hidden sm:block">SAVED</p>
-                        </a>
-                        <a className="flex items-center justify-center border-b-2 border-transparent text-gray-400 hover:text-white gap-2 py-4 px-6 flex-1 sm:flex-initial sm:min-w-[140px] hover:bg-gray-900/50 transition-colors">
+                        </button>
+
+                        {/* TAGGED Tab */}
+                        <button
+                            onClick={() => setActiveTab('tagged')}
+                            className={`flex items-center justify-center border-b-2 gap-2 py-4 px-6 flex-1 sm:flex-initial sm:min-w-[140px] hover:bg-gray-900/50 transition-colors ${activeTab === 'tagged'
+                                ? 'border-blue-500 text-white'
+                                : 'border-transparent text-gray-400 hover:text-white'
+                                }`}
+                        >
                             <UserCheck className="h-5 w-5" />
                             <p className="text-sm font-semibold tracking-wider hidden sm:block">TAGGED</p>
-                        </a>
+                        </button>
                     </div>
+                </div>
+
+                {/* Tab Content */}
+                <div className="px-0 sm:px-0">
+                    {activeTab === 'posts' && (
+                        <div className="space-y-4">
+                            <h2 className="text-xl font-bold text-white mb-4 px-2">Posts</h2>
+                            <ImageBentoGrid images={postImages} type="posts" />
+                        </div>
+                    )}
+
+                    {activeTab === 'saved' && (
+                        <div className="space-y-4">
+                            <h2 className="text-xl font-bold text-white mb-4 px-2">Saved Posts</h2>
+                            <ImageBentoGrid images={savedImages} type="saved" /> {/* Fixed: added type="saved" */}
+                        </div>
+                    )}
+
+                    {activeTab === 'tagged' && (
+                        <div className="space-y-4">
+                            <h2 className="text-xl font-bold text-white mb-4 px-2">Tagged Posts</h2>
+                            <ImageBentoGrid images={savedImages} type="tagged" /> {/* Fixed: added type="tagged" and use taggedImages */}
+                        </div>
+                    )}
                 </div>
 
                 {/* Stats Bar for Mobile */}
@@ -156,20 +192,13 @@ const Profile: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Image Grid - Fixed for Mobile */}
-                <div className="px-0 sm:px-0">
-                    <ImageBentoGrid images={postImages} />
-                </div>
-
                 {/* Footer Section */}
                 <footer className="mt-16 pt-8 border-t border-gray-800">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-                        {/* Social Links */}
-                        <div className="flex-1">
-                            <div className="text-sm text-gray-500">
-                                <p>© 2024 Alex Travels. All rights reserved.</p>
-                                <p className="mt-1">Made with ❤️ from around the world</p>
-                            </div>
+                    {/* Social Links */}
+                    <div className="flex justify-center items-center">
+                        <div className="text-sm text-gray-500">
+                            <p>© 2024 Alex Travels. All rights reserved.</p>
+                            <p className="mt-1">Made with ❤️ from around the world</p>
                         </div>
                     </div>
                 </footer>

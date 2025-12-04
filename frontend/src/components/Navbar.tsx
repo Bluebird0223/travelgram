@@ -31,12 +31,12 @@ const RightIcons = () => {
     return (
         <div className="flex items-center space-x-5">
             {/* Standard Icons */}
-            <Home size={18} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 hidden sm:block" />
-            <MessageSquare size={18} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 hidden sm:block" />
-            <PlusSquare size={18} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 hidden sm:block" />
-            <Compass size={18} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 hidden lg:block" />
-            <Heart size={18} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 hidden lg:block" />
-            <Search size={18} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 block lg:hidden" />
+            <Home size={18} onClick={() => navigate("/")} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 hidden sm:block" />
+            <MessageSquare size={18} onClick={() => navigate("/messages")} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 hidden sm:block" />
+            <PlusSquare size={18} onClick={() => navigate("/create")} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 hidden sm:block" />
+            <Compass size={18} onClick={() => navigate("/explore")} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 hidden lg:block" />
+            <Heart size={18} onClick={() => navigate("/likes")} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 hidden lg:block" />
+            <Search size={18} onClick={() => navigate("/search")} className="cursor-pointer hover:text-neutral-500 dark:text-white dark:hover:text-neutral-400 block lg:hidden" />
 
             <div
                 className="relative"
@@ -44,7 +44,7 @@ const RightIcons = () => {
             >
                 <div className="w-6 h-6 bg-blue-400 rounded-full cursor-pointer border-2 border-transparent hover:border-blue-500 transition-all"
                     onClick={() => navigate("/profile")}>
-                    {/* Image of a user profile avatar */}
+                    <img className='w-full h-full rounded-full' src="https://lh3.googleusercontent.com/aida-public/AB6AXuDORy3EViqNqfQbsMKxjNHnwPA0-FoVJR3tamuMzwqg9hPRRRQzcyVsrhdegGVzopPFJ8oTxoB8zxRToXp6T8SQyq-GR1OPHgihH4k5zkpowMPjmmOloCtek6cESGvkvZDScIlow6OY2eZ7YXfmxUbJbFpE9zsZDf3-2P6CPrVVjN_ehVrx-s5rlqT-9ObyTlOifXWhbpLI63iX05zUcl26LXuLfXE2HuQAU5jHbMSca_nosEC_BATZOn3LM6r52WC1K2-mhki4TSs" alt="profile" />
                 </div>
             </div>
         </div>
